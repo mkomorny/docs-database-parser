@@ -1,0 +1,85 @@
+HOW TO USE: database-parser
+====================================
+
+PURPOSE
+  Transforms web guide captures, YouTube transcript downloads, user manuals,
+  knowledge guides, training docs, and raw PDFs into exhaustively complete,
+  senior-engineer-quality LLM reference databases. Strips only true junk
+  (navigation chrome, cookie banners, ads, boilerplate) and preserves EVERY
+  substantive fact, parameter, code block, table, warning, and procedure step.
+  Outputs SQLite FTS5, modular Markdown, Parquet, JSONL, search.py, INDEX.md,
+  plus a COVERAGE_AUDIT.md proving nothing relevant was dropped and a
+  MANIFEST.md tracing every chunk back to its original source.
+
+CAPABILITIES
+  - Auto-detect input types: guide-capture, youtube-capture, scanner, PDF, Markdown, mixed
+  - Intelligent junk stripping: removes only nav chrome, cookie banners, ads, boilerplate
+  - Conservative by default: when uncertain, KEEPS content and flags for human review
+  - Completeness verification: per-source word count comparison with flagged sections
+  - Structure normalization: heading hierarchy, code fence repair, table alignment
+  - Source provenance tracking: every chunk carries its original URL, path, and capture date
+  - Delegates final compilation to the battle-tested dataset-builder engine (build_dataset.py)
+  - Generates COVERAGE_AUDIT.md and MANIFEST.md alongside the standard database files
+  - Output is fully compatible with ai-database-browser, Producer Pal, and all AI skills
+
+USE CASES
+  - "Parse these guide-capture folders into a single searchable database"
+  - "Turn these 15 YouTube tutorial captures into an indexed reference database"
+  - "Build an LLM reference from these plugin manuals (PDFs) and web guides"
+  - "Rebuild the Music Theory database from the updated training docs and captures"
+  - "Convert this scanner output (crawled docs site) into a proper reference database"
+  - "Parse this mixed folder of PDFs, markdown notes, and web captures into one database"
+
+IDEAS
+  - Run guide-capture or youtube-capture first to download source material, then database-parser to compile
+  - Use --dry-run to preview what gets stripped before committing to a full build
+  - Review COVERAGE_AUDIT.md after every build to verify nothing substantive was dropped
+  - Pair with ai-database-browser to immediately search the new database after building
+  - Use --detect to quickly survey what source types are in a folder before processing
+  - Chain: guide-capture → database-parser → ai-database-browser for end-to-end knowledge pipelines
+
+PROMPTS YOU CAN PASTE
+  /database-parser
+
+  Parse the guides in "/path/to/project" into a database.
+  Destination: "/data/output"
+
+  Turn these YouTube captures into a reference database:
+  Source: "/path/to/project"
+  Dest: "/data/output"
+
+  /database-parser --dry-run on "/data/output DOCS\NewFolder"
+  to preview what gets cleaned before building.
+
+  Rebuild the databases from updated training docs. Source is
+  "/data/output DOCS\SomeFolder". Ask me for destination.
+
+  Parse this folder. It has a mix of guide-capture outputs, PDFs, and
+  markdown research notes. Build a single unified database from all of it.
+
+EXAMPLE FLOW
+  You:   /database-parser
+  Model: Please provide:
+         1. Destination directory (MANDATORY: must be specified first)
+         2. Source folder containing your captures, guides, PDFs, or docs
+  You:   Source is /path/to/project
+         Destination is /data/output Synth.
+  Model: [*] Detecting source types...
+         [+] Found: 1 guide-capture folder (guide.md + manifest.json + 24 images)
+         [*] Stage 2: Extracting content from guide.md (18,420 words)...
+         [*] Stage 3: Junk stripping (removed 312 words of nav/footer boilerplate)...
+         [*] Stage 4: Completeness check — 98.3% content retained (PASS)
+         [*] Stage 5: Normalizing structure (fixed 2 heading jumps, 1 broken table)...
+         [*] Stage 6: Compiling via dataset-builder engine...
+         [+] SQLite FTS5 database written (helm_synth.db)
+         [+] Parquet, JSONL, search.py, INDEX.md, SCHEMA.md, README.md created
+         [+] MANIFEST.md: 1 source traced (guide-capture from helm-synth.com)
+         [+] COVERAGE_AUDIT.md: 0 sections flagged — full coverage verified
+         [SUCCESS] Database ready. 18,108 words across 38 semantic chunks.
+
+DEFAULT GOALS IF YOU DON'T NAME ONE
+  1. Halt and ask for the destination directory first
+  2. Auto-detect all source types in the provided folder
+  3. Run the full 6-stage intelligent parsing pipeline (extract, strip junk, verify, normalize)
+  4. Compile via dataset-builder into SQLite FTS5, Parquet, JSONL, search.py, and INDEX.md
+  5. Generate COVERAGE_AUDIT.md and MANIFEST.md for auditability
