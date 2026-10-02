@@ -17,3 +17,7 @@ An automated source-to-database knowledge extraction and structuring pipeline. I
 ## Instructions
 
 See [INSTRUCTIONS.md](./INSTRUCTIONS.md) for pipeline execution commands.
+
+## License
+
+This project is licensed under the GNU General Public License v3.0 (GPL-3.0) - see the [LICENSE](./LICENSE) file for details.
